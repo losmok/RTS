@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 28 Wrz 2022, 15:48
+-- Czas generowania: 28 Wrz 2022, 16:06
 -- Wersja serwera: 10.4.22-MariaDB
 -- Wersja PHP: 8.1.2
 
@@ -128,9 +128,9 @@ CREATE TABLE `villages` (
 --
 
 INSERT INTO `villages` (`id`, `name`, `x`, `y`, `players_id`) VALUES
-(2, 'wioska pawel', NULL, NULL, 1),
-(3, 'wioska kacper', NULL, NULL, 2),
-(4, 'wioska oskar', NULL, NULL, 3);
+(1, 'wioska pawel', NULL, NULL, 1),
+(2, 'wioska kacper', NULL, NULL, 2),
+(3, 'wioska oskar', NULL, NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -152,10 +152,24 @@ CREATE TABLE `villages_has_buildings` (
 
 CREATE TABLE `villages_has_resources` (
   `Villages_id` int(11) NOT NULL,
-  `Villages_players_id` int(11) NOT NULL,
   `resources_id` int(11) NOT NULL,
   `value` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Zrzut danych tabeli `villages_has_resources`
+--
+
+INSERT INTO `villages_has_resources` (`Villages_id`, `resources_id`, `value`) VALUES
+(1, 1, 250),
+(1, 2, 250),
+(1, 3, 250),
+(2, 1, 250),
+(2, 2, 250),
+(2, 3, 250),
+(3, 1, 250),
+(3, 2, 250),
+(3, 3, 250);
 
 -- --------------------------------------------------------
 
@@ -215,7 +229,7 @@ ALTER TABLE `villages_has_buildings`
 -- Indeksy dla tabeli `villages_has_resources`
 --
 ALTER TABLE `villages_has_resources`
-  ADD PRIMARY KEY (`Villages_id`,`Villages_players_id`,`resources_id`),
+  ADD PRIMARY KEY (`Villages_id`,`resources_id`),
   ADD KEY `fk_Villages_has_resources_resources1` (`resources_id`);
 
 --
@@ -257,7 +271,7 @@ ALTER TABLE `troops`
 -- AUTO_INCREMENT dla tabeli `villages`
 --
 ALTER TABLE `villages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT dla tabeli `villages_has_buildings`
@@ -269,7 +283,7 @@ ALTER TABLE `villages_has_buildings`
 -- AUTO_INCREMENT dla tabeli `villages_has_resources`
 --
 ALTER TABLE `villages_has_resources`
-  MODIFY `Villages_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Villages_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT dla tabeli `villages_has_troops`
@@ -298,7 +312,7 @@ ALTER TABLE `villages_has_buildings`
 -- Ograniczenia dla tabeli `villages_has_resources`
 --
 ALTER TABLE `villages_has_resources`
-  ADD CONSTRAINT `fk_Villages_has_resources_Villages1` FOREIGN KEY (`Villages_id`,`Villages_players_id`) REFERENCES `villages` (`id`, `players_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Villages_has_resources_Villages1` FOREIGN KEY (`Villages_id`) REFERENCES `villages` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_Villages_has_resources_resources1` FOREIGN KEY (`resources_id`) REFERENCES `resources` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
